@@ -1,0 +1,15 @@
+read in AGP 1
+read in AGP 2
+
+for the largest scaffold in AGP 1
+plot AGP 1 as SVG
+locate largest matching track in AGP 2
+plot AGP 2 as SVG below AGP 1
+link where ID is the same
+
+highlight default gaps in yellow
+where two contigs aka a pair havethe  same ids and diff gap, allow copy of gap between tracks
+
+highlight where a contig is present in one AGP scaffold but not scaffolded in the other AGP
+
+consider plotting evidence track for each AGP
