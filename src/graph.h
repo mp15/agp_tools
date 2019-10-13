@@ -4,13 +4,14 @@
 #define AGP_GRAPH_H
 
 #include <stddef.h>
+#include "agp_file.h"
 
 typedef struct _AGPNode AGPNode;
 
 struct _AGPNode {
     const char* id;
-    const char* contig_id;
     char orientation;
+    AGPEntry entry;
 
     size_t left_n;
     size_t right_n;

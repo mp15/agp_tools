@@ -55,6 +55,8 @@ int main(int argc, char** argv)
            component_end_linkage,
            orientation_evidence
         );
+        
+        AGPNode* node = (AGPNode*)malloc(sizeof(AGPNode));
         printf("%s\n", object);
     }
 
