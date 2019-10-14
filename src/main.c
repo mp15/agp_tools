@@ -40,6 +40,9 @@ int main(int argc, char** argv)
     fclose(input);
 
     // Now add it to the graph
+    for (size_t i = 0; i < data->n_records; i++) {
+        //data->lines[i];
+    }
 
     return EXIT_SUCCESS;
 } 
