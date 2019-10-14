@@ -21,6 +21,8 @@ int main(int argc, char** argv)
         fprintf(stderr, "We need at least one input file to combine.\n");
         return EXIT_FAILURE;
     }
+
+    // Read in data
     fprintf(stderr, "Opening file: %s\n", argv[0]);
     
     FILE* input;
@@ -28,12 +30,16 @@ int main(int argc, char** argv)
         fprintf(stderr, "Error opening file\n");
         return EXIT_FAILURE;
     }
-    if (parse_agp_file(input) != 0) {
+    
+    agp_file* data;
+    if (parse_agp_file(input, &data) != 0) {
         fprintf(stderr, "Error parsing fiie\n");
         fclose(input);
         return EXIT_FAILURE;
     }
     fclose(input);
+
+    // Now add it to the graph
 
     return EXIT_SUCCESS;
 } 

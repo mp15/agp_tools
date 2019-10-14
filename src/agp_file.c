@@ -5,42 +5,6 @@
 #include <string.h>
 #include "agp_file.h"
 
-typedef enum _comp_type {
-    active_finishing = 'A',
-    draft_htg = 'D',
-    finished_htg = 'F',
-    whole_genome_finishing = 'G',
-    other_sequence = 'O',
-    pre_draft = 'P',
-    wgs_contig = 'W',
-    known_gap = 'N',
-    unknown_gap = 'U',
-} comp_type;
-
-typedef struct _agp_line {
-    char* object;
-    uint64_t object_beg;
-    uint64_t object_end;
-    int32_t part_number;
-    comp_type component_type;
-    union {
-        char* component_id;
-        uint64_t gap_length;
-    };
-    union {
-        uint64_t component_beg;
-        char* gap_type;
-    };
-    union {
-        uint64_t component_end;
-        char* linkage;
-    };
-    union {
-        char orientation;
-        char* linkage_evidence;
-    };
-} agp_line;
-
 // Parse a single non-comment line from an AGP file
 static int parse_agp_line(const char* restrict line, agp_line** parsed)
 {
@@ -120,12 +84,22 @@ badline:
     return 1;
 }
 
-int parse_agp_file(FILE* input)
+typedef struct _agp_line_ll agp_line_ll;
+struct _agp_line_ll {
+    agp_line* data;
+    agp_line_ll *next;
+};
+
+int parse_agp_file(FILE* input, agp_file** file_out)
 {
     char *line = NULL;
     size_t linecap = 0;
     ssize_t linelen;
     agp_line* data = NULL;
+    agp_line_ll* base = NULL;
+    agp_file* file = (agp_file*)malloc(sizeof(agp_file));
+    file->n_records = 0;
+
     while ((linelen = getline(&line, &linecap, input)) >= 0) {
         // skip empty or comment lines
         if (linelen > 0 && line[0] == '#') {
@@ -134,7 +108,27 @@ int parse_agp_file(FILE* input)
         if (parse_agp_line(line, &data) != 0 ) {
             return 1;
         }
-        free(data);
+
+        agp_line_ll* add = (agp_line_ll*)malloc(sizeof(agp_line_ll));
+        add->data = data;
+        add->next = base;
+        base = add;
+
+        file->n_records++;
     }
+
+    if (file->n_records > 0) {
+        file->lines = (agp_line**)malloc(sizeof(agp_line*)*file->n_records);
+        size_t i = file->n_records;
+        do {
+            i--;
+            file->lines[i] = base->data;
+            agp_line_ll* del = base;
+            base = base->next;
+            free(del);
+        } while (base);
+    } else {file->lines = NULL;}
+    *file_out = file;
+    
     return 0;
 }

@@ -11,7 +11,7 @@ typedef struct _AGPNode AGPNode;
 struct _AGPNode {
     const char* id;
     char orientation;
-    AGPEntry entry;
+    agp_line* entry;
 
     size_t left_n;
     size_t right_n;
