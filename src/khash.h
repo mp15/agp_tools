@@ -128,7 +128,7 @@ int main() {
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <htslib/kstring.h>
+#include "kstring.h"
 
 /* compiler specific configuration */
 

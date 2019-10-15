@@ -15,15 +15,24 @@ struct _AGPNode {
     char orientation;
     agp_line* entry;
 
-    size_t left_n;
-    size_t right_n;
+    size_t n_left;
+    size_t n_right;
     AGPEdge** left;
     AGPEdge** right;
 };
 
+typedef struct _AGPGapTech {
+    uint64_t length;
+    int source_file_no;
+} AGPGapTech;
+
 struct _AGPEdge {
     AGPNode* out_path;
-    uint64_t length;
+    agp_line* entry;
+    size_t n_gap;
+    AGPGapTech* gap;
 };
+
+int add_to_graph(const agp_file* restrict data);
 
 #endif // defined AGP_GRAPH_H
