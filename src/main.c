@@ -44,6 +44,7 @@ int main(int argc, char** argv)
 
         if (add_to_graph(data, graph)) return EXIT_FAILURE;
     }
+    dump_graph(graph);
 
     return EXIT_SUCCESS;
 } 

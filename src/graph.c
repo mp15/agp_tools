@@ -46,7 +46,6 @@ int add_to_graph(const agp_file* restrict data, AGPGraph* graph)
     size_t i = 0;
     while ( i < data->n_records) {
         char* last_obj = data->lines[i]->object;
-        printf("Adding scaffold %s\n", data->lines[i]->object);
         if (data->lines[i]->component_type == known_gap || data->lines[i]->component_type == unknown_gap ) {
             fprintf(stderr, "Unexpected gap component\n");
             return 1;
@@ -113,4 +112,9 @@ int add_to_graph(const agp_file* restrict data, AGPGraph* graph)
 
     source_file_no++;
     return 0;
+}
+
+void dump_graph(const AGPGraph* graph)
+{
+    printf("components: %d\n",kh_size(graph->components));
 }

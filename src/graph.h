@@ -37,5 +37,6 @@ typedef struct _AGPGraph AGPGraph;
 
 AGPGraph* init_graph();
 int add_to_graph(const agp_file* restrict data, AGPGraph* graph);
+void dump_graph(const AGPGraph* restrict graph);
 
 #endif // defined AGP_GRAPH_H
