@@ -33,6 +33,9 @@ struct _AGPEdge {
     AGPGapTech* gap;
 };
 
-int add_to_graph(const agp_file* restrict data);
+typedef struct _AGPGraph AGPGraph;
+
+AGPGraph* init_graph();
+int add_to_graph(const agp_file* restrict data, AGPGraph* graph);
 
 #endif // defined AGP_GRAPH_H
